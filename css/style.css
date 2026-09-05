@@ -62,7 +62,7 @@ nav .links a:focus-visible{outline:2px solid var(--accent);outline-offset:4px;bo
 .hero .bg{position:absolute;inset:0;z-index:0;
   background:
     radial-gradient(120% 90% at 70% 10%, rgba(200,163,91,0.04), transparent 50%),
-    linear-gradient(rgba(8,21,24,.12) 0%, rgba(8,21,24,.38) 55%, rgba(8,21,24,.68) 100%),
+    linear-gradient(rgba(8,21,24,.35) 0%, rgba(8,21,24,.55) 45%, rgba(8,21,24,.85) 100%),
     url("../images/hero4.jpg");
   background-size:cover;background-position:center 35%}
 .hero .bg::after{content:"";position:absolute;inset:0;
