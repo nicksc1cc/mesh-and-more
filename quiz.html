@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>How you travel — the Mesh &amp; More matching quiz</title>
+<meta name="description" content="Twelve questions about how you like to travel, not who you are. We use your answers to place you at a table and tell you why. Stored until you ask us to delete. Nothing else." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/quiz.css" />
+</head>
+<body>
+
+<nav>
+  <span class="brand">Mesh &amp; More</span>
+  <span class="links">
+    <a href="quiz.html">Quiz</a>
+    <a href="people.html">Sample table</a>
+    <a href="index.html#how">How it works</a>
+    <a href="index.html#join">Join</a>
+  </span>
+</nav>
+
+<!-- INTRO -->
+<header class="quiz-hero wrap" id="intro">
+  <p class="eyebrow">The matching instrument</p>
+  <h1 style="margin-top:1rem">Twelve questions. Not about who you are.</h1>
+  <p class="lede">This is not a personality quiz — we ask how you travel, not who you are. Leave any blank; a blank just means we weigh that dimension less. When the table is composed, a person reads your answers before anything locks.</p>
+  <p class="consent"><strong>We use your answers to place you at a table and tell you why.</strong> Stored until you ask us to delete. Nothing else.</p>
+  <div class="quiz-actions">
+    <a class="btn btn-primary" href="#quiz">Start the questions</a>
+    <span class="micro">Runs entirely in your browser. Nothing is sent anywhere.</span>
+  </div>
+</header>
+
+<div class="rule"></div>
+
+<!-- QUIZ -->
+<section class="block wrap" id="quiz">
+  <form id="quizForm" novalidate>
+    <!-- rows injected by script -->
+    <div class="quiz-actions">
+      <button class="btn btn-primary" type="submit">See your read-out</button>
+      <span class="micro">No account. No send. Your answers stay on this device.</span>
+    </div>
+  </form>
+</section>
+
+<div class="rule"></div>
+
+<!-- READ-OUT -->
+<section class="block wrap hidden" id="readout">
+  <p class="eyebrow">Your read-out</p>
+  <h2 style="margin-top:1rem;font-size:clamp(2rem,5vw,3.4rem)">Here is where you fell</h2>
+  <p class="section-note">We show the band you scored on, not a label. These are four of the twelve dimensions — the ones that most often decide a table. We tell you in plain words why each one mattered.</p>
+
+  <ul class="band-word" id="bandWord"></ul>
+
+  <div class="coldstart">
+    <h3>Your provisional table</h3>
+    <p>Below is a sample composed table for the Puglia spring trip — six people, chosen for range, so the conversation moves. It's shown as the shape your own table would take.</p>
+    <p>On the first tables a real person builds this by hand — the matching loop hasn't trained yet. That's the point. You'll still see, in plain words, why you were placed where you were.</p>
+  </div>
+
+  <div class="quiz-actions">
+    <a class="btn btn-primary" href="index.html#join">Register your interest</a>
+    <a class="btn btn-ghost" href="people.html">See the full sample table</a>
+  </div>
+
+  <div id="sampleTableMount"></div>
+</section>
+
+<div class="rule"></div>
+
+<footer>
+  <span>Mesh &amp; More — small-group travel for solo travellers in their late 30s to 50s</span>
+  <span>A real person reviews your table before it locks. We say so because that's the point.</span>
+</footer>
+
+<script>
+/* 12 travel-relevant dimensions. Each slider 1–5.
+   left = value 1, right = value 5. bandWords describe the band, not a label. */
+const DIMENSIONS = [
+  { id:"pace", name:"Pace", prompt:"On a free day, what feels like a good one?",
+    left:"Three things planned", right:"One thing, done slowly",
+    bandWords:["open","slow","unhurried","easy","packed"],
+    why:"A table of all-early-planners would leave someone waiting; we balance pace so nobody is hurried or bored." },
+  { id:"social", name:"Social energy", prompt:"At dinner on a trip, what do you tend to do?",
+    left:"Talk most of the evening", right:"Listen and chip in",
+    bandWords:["listener","quiet","mixed","outgoing","talker"],
+    why:"A table needs both talkers and listeners, or the meal is either a monologue or a hush. We seat for balance." },
+  { id:"spont", name:"Spontaneity vs plan", prompt:"The plan changes at the last minute. Your first reaction?",
+    left:"Fine", right:"Frustrating",
+    bandWords:["rigid","planned","flexible","loose","easygoing"],
+    why:"A mixed table snags on detail if everyone needs the plan fixed. We keep a spread so shifts get absorbed." },
+  { id:"stimulus", name:"Stimulus type", prompt:"After a day walking a city, where would you rather be?",
+    left:"A quiet bar", right:"The loud one with music",
+    bandWords:["calm","quiet","mixed","lively","stimulated"],
+    why:"We place you where the evening's noise level sits right for you, not against you." },
+  { id:"alone", name:"Alone-time need", prompt:"You'd be happy to skip a group activity and do your own thing?",
+    left:"Strongly agree", right:"Strongly disagree",
+    bandWords:["needs space","independent","mixed","with-group","with-group"],
+    why:"Everyone needs an hour alone by day three. We read this so the table gives room, not pressure." },
+  { id:"convo", name:"Conversation style", prompt:"Hot topics at dinner — welcome, or keep it light?",
+    left:"Welcome", right:"Keep it light",
+    bandWords:["debates","engaged","mixed","easy","light"],
+    why:"We tell you the table's talk style up front, so you know whether dinner runs deep or stays surface." },
+  { id:"money", name:"Money ease", prompt:"A dinner comes to more than expected. You…",
+    left:"Don't mind", right:"Notice it",
+    bandWords:["easy","relaxed","mixed","aware","watching"],
+    why:"We flag the table's money comfort so the bill never becomes the awkward moment of the trip." },
+  { id:"earlylate", name:"Early or late", prompt:"Your travel day starts…",
+    left:"At first light", right:"When it opens",
+    bandWords:["early","first-light","mixed","late-riser","late"],
+    why:"A table of all-early-starters leaves the late riser chasing. We balance the clock across the group." },
+  { id:"naturerooms", name:"Nature vs rooms", prompt:"A free afternoon: a coast path, or a museum?",
+    left:"Coast path", right:"Museum",
+    bandWords:["outdoors","outside","mixed","inside","indoors"],
+    why:"We read outdoors–indoors so the day's shape suits you, not fights your instinct." },
+  { id:"photo", name:"Photo mode", prompt:"You document the trip…",
+    left:"Constantly", right:"Hardly",
+    bandWords:["documenting","shooting","mixed","occasional","present"],
+    why:"We note this so the group's pace for the 'one more photo' moment doesn't grate on the people who'd rather just be there." },
+  { id:"closeness", name:"Closeness comfort", prompt:"By day three of non-stop group time, you need…",
+    left:"More of it", right:"An hour alone",
+    bandWords:["together","close","mixed","space","solitude"],
+    why:"We place you where the togetherness level fits, so the week feels full, not crowded." },
+  { id:"conflict", name:"Conflict style", prompt:"Two people at the table disagree. You'd rather…",
+    left:"Talk it through", right:"Let it pass",
+    bandWords:["direct","straight","mixed","easy","deflect"],
+    why:"A table needs a mix of people who surface things and people who let them go, or small rubs harden." }
+];
+
+const form = document.getElementById("quizForm");
+const rowsHost = document.createElement("div");
+form.insertBefore(rowsHost, form.firstChild);
+
+DIMENSIONS.forEach((d, i) => {
+  const row = document.createElement("div");
+  row.className = "qrow";
+  row.dataset.id = d.id;
+  row.innerHTML = `
+    <div>
+      <div class="qname"><span style="color:var(--accent)">${String(i+1).padStart(2,"0")}</span> &nbsp;${d.name}</div>
+      <div class="qprompt">${d.prompt}</div>
+    </div>
+    <div class="qmain">
+      <div class="anchors"><span>${d.left}</span><span>${d.right}</span></div>
+      <div class="qctl">
+        <input type="range" min="1" max="5" step="1" value="3" aria-label="${d.name}" />
+        <span class="qval">3</span>
+        <button type="button" class="blankbtn" aria-pressed="false">Leave blank</button>
+      </div>
+    </div>`;
+  const range = row.querySelector("input[type=range]");
+  const val = row.querySelector(".qval");
+  const blank = row.querySelector(".blankbtn");
+
+  range.addEventListener("input", () => {
+    val.textContent = range.value;
+    if (blank.getAttribute("aria-pressed") === "true") {
+      blank.setAttribute("aria-pressed", "false");
+      row.classList.remove("blank");
+    }
+  });
+  blank.addEventListener("click", () => {
+    const on = blank.getAttribute("aria-pressed") === "true";
+    blank.setAttribute("aria-pressed", on ? "false" : "true");
+    row.classList.toggle("blank", !on);
+  });
+
+  rowsHost.appendChild(row);
+});
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const answers = {};
+  let answered = 0;
+  DIMENSIONS.forEach((d) => {
+    const row = rowsHost.querySelector(`.qrow[data-id="${d.id}"]`);
+    const blank = row.querySelector(".blankbtn").getAttribute("aria-pressed") === "true";
+    if (blank) { answers[d.id] = null; }
+    else { answers[d.id] = Number(row.querySelector("input[type=range]").value); answered++; }
+  });
+
+  const bandWord = document.getElementById("bandWord");
+  bandWord.innerHTML = "";
+  // show 4 dimensions most likely to decide a table, in fixed order for honesty
+  const show = ["pace","social","earlylate","alone"];
+  show.forEach((id) => {
+    const d = DIMENSIONS.find(x => x.id === id);
+    const v = answers[id];
+    const li = document.createElement("li");
+    if (v === null) {
+      li.innerHTML = `<span class="bw-name">${d.name}</span>
+        <span class="bw-line">You left this one blank.</span>
+        <span class="bw-why">${d.why}</span>`;
+    } else {
+      const word = d.bandWords[v - 1];
+      li.innerHTML = `<span class="bw-name">${d.name}</span>
+        <span class="bw-line">On ${d.name.toLowerCase()}, you sit toward <strong>${word}</strong>.</span>
+        <span class="bw-why">${d.why}</span>`;
+    }
+    bandWord.appendChild(li);
+  });
+
+  // embed the sample table as the provisional table
+  const mount = document.getElementById("sampleTableMount");
+  if (window.MESH_PEOPLE) {
+    const p = window.MESH_PEOPLE;
+    let cards = p.people.map(person => `
+      <div class="pcard">
+        <div class="phead"><span class="pname">${person.name}</span><span class="page">${person.age}</span></div>
+        <div class="pbrings">${person.brings}</div>
+        <div class="pfits"><em>Why they fit:</em> ${person.fits}</div>
+      </div>`).join("");
+    mount.innerHTML = `
+      <p class="journey-tag" style="margin-top:2.4rem">${p.journey} · ${p.season}</p>
+      <h3 style="font-family:'Cormorant',serif;font-size:1.6rem;margin-top:.4rem;font-weight:600">The sample table</h3>
+      <p class="section-note">${p.note}</p>
+      <div class="people-grid">${cards}</div>`;
+  }
+
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("quiz").classList.add("hidden");
+  const ro = document.getElementById("readout");
+  ro.classList.remove("hidden");
+  ro.scrollIntoView({ behavior: "smooth" });
+});
+</script>
+
+<script src="data/people.js"></script>
+<script>
+  // preload sample table reference for the read-out (data already global)
+  if (!window.MESH_PEOPLE && typeof MESH_PEOPLE !== "undefined") window.MESH_PEOPLE = MESH_PEOPLE;
+</script>
+</body>
+</html>

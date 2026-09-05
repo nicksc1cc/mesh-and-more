@@ -1,0 +1,99 @@
+/* Mesh & More — quiz + sample table page styles.
+   Builds on the luxury dark editorial system in css/style.css
+   (Cormorant display + Montserrat UI, refined gold accent). */
+
+.quiz-hero{padding-top:clamp(6rem,16vh,9rem);padding-bottom:clamp(2rem,6vw,4rem)}
+.quiz-hero h1{font-size:clamp(2.2rem,6vw,4.2rem);max-width:18ch}
+.quiz-hero .lede{margin-top:1.4rem;max-width:52ch;color:var(--bone-dim);font-size:clamp(1rem,1.6vw,1.18rem)}
+.consent{
+  margin-top:2rem;max-width:54ch;font-size:.9rem;line-height:1.55;color:var(--bone-dim);
+  border-left:2px solid var(--accent);padding:.6rem 0 .6rem 1rem;background:var(--accent-soft)
+}
+.consent strong{color:var(--bone);font-weight:500}
+
+/* ---------- QUIZ ---------- */
+#quiz{margin-top:2.4rem}
+.qrow{
+  border-top:1px solid var(--line);padding:1.6rem 0;display:grid;
+  grid-template-columns:1fr;gap:.9rem
+}
+@media(min-width:760px){.qrow{grid-template-columns:0.9fr 1.1fr;gap:2rem;align-items:center}}
+.qrow .qname{font-family:"Cormorant",serif;font-size:1.35rem;color:var(--bone)}
+.qrow .qprompt{color:var(--bone-dim);font-size:.95rem;margin-top:.3rem;max-width:48ch}
+.qmain{display:grid;gap:.7rem}
+.anchors{display:flex;justify-content:space-between;font-size:.74rem;letter-spacing:.03em;color:var(--bone-dim);text-transform:uppercase}
+.qctl{display:flex;align-items:center;gap:1rem}
+.qval{font-family:"Cormorant",serif;font-size:1.15rem;color:var(--accent);min-width:2.2ch;text-align:center;font-weight:600}
+
+/* range slider */
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:3px;border-radius:3px;
+  background:var(--line);outline:none;cursor:pointer
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;
+  background:var(--accent);border:3px solid var(--ink);box-shadow:0 0 0 1px var(--accent);
+  transition:transform .15s ease
+}
+input[type=range]::-moz-range-thumb{
+  width:18px;height:18px;border-radius:50%;background:var(--accent);border:3px solid var(--ink)
+}
+input[type=range]:hover::-webkit-slider-thumb{transform:scale(1.08)}
+input[type=range]:focus{outline:none}
+input[type=range]:focus-visible{outline:2px solid var(--accent);outline-offset:6px}
+.qrow.blank input[type=range]{opacity:.35}
+.qrow.blank .qval{opacity:.35}
+.qrow.blank .qname{opacity:.6}
+.blankbtn{
+  background:none;border:1px solid var(--line);color:var(--bone-dim);font-size:.74rem;
+  letter-spacing:.04em;padding:.35rem .7rem;border-radius:999px;cursor:pointer;white-space:nowrap;
+  font-family:"Montserrat",sans-serif;transition:border-color .2s ease,color .2s ease
+}
+.blankbtn:hover{border-color:var(--accent);color:var(--bone)}
+.blankbtn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.blankbtn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+
+.quiz-actions{margin-top:2.2rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.quiz-actions .micro{color:var(--bone-dim);font-size:.82rem}
+
+/* ---------- READ-OUT ---------- */
+#readout{margin-top:1rem}
+#readout .band-word{list-style:none;border-top:1px solid var(--line)}
+#readout .band-word li{padding:1.1rem 0;border-bottom:1px solid var(--line);display:grid;gap:.3rem}
+.bw-name{font-family:"Cormorant",serif;font-size:1.2rem;color:var(--accent);font-weight:600}
+.bw-line{color:var(--bone);font-size:.98rem;max-width:62ch}
+.bw-why{color:var(--bone-dim);font-size:.9rem;max-width:62ch}
+.bw-mid{color:var(--bone-dim)}
+
+.coldstart{
+  margin-top:2.4rem;border:1px solid var(--line);border-radius:14px;padding:1.6rem 1.5rem;
+  background:var(--accent-soft);transition:border-color .25s ease
+}
+.coldstart:hover{border-color:rgba(200,163,91,0.4)}
+.coldstart h3{font-size:1.3rem;color:var(--bone);margin-bottom:.6rem;font-family:"Cormorant",serif}
+.coldstart p{color:var(--bone-dim);font-size:.96rem;max-width:60ch}
+.coldstart p + p{margin-top:.8rem}
+
+/* ---------- PEOPLE TABLE ---------- */
+.people-grid{margin-top:2.4rem;display:grid;gap:1.2rem;grid-template-columns:1fr}
+@media(min-width:680px){.people-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.people-grid{grid-template-columns:repeat(3,1fr)}}
+.pcard{border:1px solid var(--line);border-radius:14px;padding:1.5rem 1.4rem;background:rgba(239,233,221,0.02);transition:border-color .25s ease,transform .25s ease}
+.pcard:hover{border-color:rgba(200,163,91,0.45);transform:translateY(-2px)}
+.pcard .phead{display:flex;align-items:baseline;gap:.6rem}
+.pcard .pname{font-family:"Cormorant",serif;font-size:1.6rem;color:var(--bone)}
+.pcard .page{color:var(--accent);font-size:.9rem;font-family:"Cormorant",serif;font-weight:600}
+.pcard .pbrings{margin-top:.7rem;color:var(--bone);font-size:.96rem;max-width:34ch}
+.pcard .pfits{margin-top:.7rem;color:var(--bone-dim);font-size:.88rem;max-width:34ch}
+.pcard .pfits em{color:var(--accent);font-style:normal}
+
+.journey-tag{font-family:"Cormorant",serif;color:var(--accent);font-size:.95rem;letter-spacing:.1em;font-weight:600}
+.section-note{color:var(--bone-dim);font-size:.95rem;max-width:60ch;margin-top:1rem}
+
+.hidden{display:none!important}
+
+@media(prefers-reduced-motion:reduce){
+  input[type=range]{transition:none}
+  input[type=range]:hover::-webkit-slider-thumb{transform:none}
+  .pcard,.coldstart,.btn{transition:none}
+}

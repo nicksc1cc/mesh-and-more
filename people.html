@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A sample table — Mesh &amp; More</title>
+<meta name="description" content="A composed sample table of six for the Puglia spring trip. Chosen for range, not likeness — so the conversation moves. On the first tables a person builds this by hand." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/quiz.css" />
+</head>
+<body>
+
+<nav>
+  <span class="brand">Mesh &amp; More</span>
+  <span class="links">
+    <a href="quiz.html">Quiz</a>
+    <a href="people.html">Sample table</a>
+    <a href="index.html#how">How it works</a>
+    <a href="index.html#join">Join</a>
+  </span>
+</nav>
+
+<header class="quiz-hero wrap">
+  <p class="eyebrow">A sample table</p>
+  <h1 style="margin-top:1rem">Six people, chosen for range</h1>
+  <p class="lede">Not clones of each other. A table that moves. Here is a composed sample of six for the Puglia spring trip — what each person brings, and why they fit together.</p>
+  <p class="consent"><strong>This is a sample, not a real booking.</strong> On the first tables a real person builds this by hand — the matching loop hasn't trained yet. That's the point.</p>
+  <div class="quiz-actions">
+    <a class="btn btn-primary" href="quiz.html">Take the matching quiz</a>
+    <a class="btn btn-ghost" href="index.html#join">Register your interest</a>
+  </div>
+</header>
+
+<div class="rule"></div>
+
+<section class="block wrap">
+  <p class="journey-tag" id="journeyTag">Puglia · Spring</p>
+  <h2 style="margin-top:.4rem;font-size:clamp(1.8rem,4.5vw,3rem)">Why it holds together</h2>
+  <p class="section-note" id="journeyNote"></p>
+
+  <div class="people-grid" id="peopleGrid"></div>
+
+  <div class="coldstart" style="margin-top:3rem">
+    <h3>On complementarity, not likeness</h3>
+    <p>A good table isn't six versions of the same person. It's a range: someone to hold the slow pace, someone up at first light, someone who'd rather listen, someone who keeps dinner going. The research is clear — what makes a group work is how the people complement each other, not how alike they are.</p>
+    <p>That's why we build for range. You come home with friends, not just a completed itinerary.</p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<footer>
+  <span>Mesh &amp; More — small-group travel for solo travellers in their late 30s to 50s</span>
+  <span>A real person reviews your table before it locks. We say so because that's the point.</span>
+</footer>
+
+<script src="data/people.js"></script>
+<script>
+  (function () {
+    const data = window.MESH_PEOPLE;
+    if (!data) return;
+    document.getElementById("journeyTag").textContent = data.journey + " · " + data.season;
+    document.getElementById("journeyNote").textContent = data.note;
+    const grid = document.getElementById("peopleGrid");
+    grid.innerHTML = data.people.map(p => `
+      <div class="pcard">
+        <div class="phead"><span class="pname">${p.name}</span><span class="page">${p.age}</span></div>
+        <div class="pbrings">${p.brings}</div>
+        <div class="pfits"><em>Why they fit:</em> ${p.fits}</div>
+      </div>`).join("");
+  })();
+</script>
+</body>
+</html>
