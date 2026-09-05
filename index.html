@@ -251,6 +251,31 @@
       </div>
       <div class="grid2">
         <div class="field">
+          <label for="age">Age</label>
+          <select id="age" name="age" required>
+            <option value="" disabled selected>Your age</option>
+            <option value="30-35">30–35</option>
+            <option value="36-40">36–40</option>
+            <option value="41-45">41–45</option>
+            <option value="46-50">46–50</option>
+            <option value="51-55">51–55</option>
+            <option value="56-60">56–60</option>
+            <option value="60+">60+</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender" required>
+            <option value="" disabled selected>Your gender</option>
+            <option value="woman">Woman</option>
+            <option value="man">Man</option>
+            <option value="non-binary">Non-binary</option>
+            <option value="prefer-not">Prefer not to say</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
           <label for="journey">Preferred journey</label>
           <select id="journey" name="journey" required>
             <option value="" disabled selected>Choose a region…</option>
@@ -262,6 +287,19 @@
           </select>
         </div>
         <div class="field">
+          <label for="tripType">Type of trip</label>
+          <select id="tripType" name="tripType" required>
+            <option value="" disabled selected>What kind of trip</option>
+            <option value="culture-food">Culture & food</option>
+            <option value="active-hiking">Active / hiking</option>
+            <option value="slow-travel">Slow travel</option>
+            <option value="mixed">A bit of everything</option>
+            <option value="unsure">Not sure yet</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
           <label for="window">Travel window</label>
           <select id="window" name="window" required>
             <option value="" disabled selected>Choose a window…</option>
@@ -269,6 +307,18 @@
             <option value="2026-autumn">Autumn 2026</option>
             <option value="2027">2027</option>
             <option value="Flexible">Flexible</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="budget">Budget range (per person)</label>
+          <select id="budget" name="budget" required>
+            <option value="" disabled selected>Your budget</option>
+            <option value="under-2000">Under £2,000</option>
+            <option value="2000-2500">£2,000 – £2,500</option>
+            <option value="2500-3000">£2,500 – £3,000</option>
+            <option value="3000-3500">£3,000 – £3,500</option>
+            <option value="3500+">£3,500+</option>
+            <option value="flexible">Flexible</option>
           </select>
         </div>
       </div>
