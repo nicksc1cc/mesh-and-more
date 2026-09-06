@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
 /* home-only overrides for premium image-forward layout */
 
@@ -339,55 +341,137 @@
   <span>Group travel solved the logistics of going alone. We solved the reason people don't: the strangers.</span>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-// scroll reveal
-const io=new IntersectionObserver((es)=>{
-  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
-},{threshold:0.16});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  gsap.registerPlugin(ScrollTrigger);
 
-// lead capture
-const form=document.getElementById('leadForm');
-const note=document.getElementById('formNote');
-const submitBtn=form.querySelector('button[type=submit]');
-const btnLabel=submitBtn.innerHTML;
-const setLoading=(on)=>{
-  submitBtn.disabled=on;
-  submitBtn.setAttribute('aria-busy', on?'true':'false');
-  submitBtn.innerHTML=on ? '<span class="spin" aria-hidden="true"></span> Sending…' : btnLabel;
-};
-form.addEventListener('submit',async(e)=>{
-  e.preventDefault();
-  note.className='form-note';note.textContent='';
-  const data={
-    name:form.name.value.trim(),
-    email:form.email.value.trim(),
-    journey:form.journey.value,
-    window:form.window.value
+  // --- Hero entrance ---
+  gsap.from('.hero .eyebrow', { y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' });
+  gsap.from('.hero h1', { y: 40, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.2 });
+  gsap.from('.hero .lede', { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out', delay: 0.4 });
+  gsap.from('.hero .cta > *', { y: 30, opacity: 0, duration: 0.6, stagger: 0.15, ease: 'power2.out', delay: 0.6 });
+
+  // --- Scroll-triggered reveals (replace IntersectionObserver) ---
+  const revealDefaults = { opacity: 0, y: 40, duration: 0.9, ease: 'power2.out' };
+
+  // Image splits (01, 02)
+  gsap.utils.toArray('.img-split').forEach((el, i) => {
+    gsap.from(el.querySelector('.half-img'), {
+      ...revealDefaults,
+      x: i % 2 === 0 ? -60 : 60,
+      scrollTrigger: { trigger: el, start: 'top 80%', toggleActions: 'play none none none' }
+    });
+    gsap.from(el.querySelector('.half-text'), {
+      ...revealDefaults,
+      x: i % 2 === 0 ? 60 : -60,
+      scrollTrigger: { trigger: el, start: 'top 80%', toggleActions: 'play none none none' }
+    });
+  });
+
+  // Full-bleed image bands (03, 06)
+  gsap.utils.toArray('.img-band').forEach(el => {
+    gsap.from(el.querySelector('img'), {
+      scale: 1.12, opacity: 0, duration: 1.2, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+    });
+    gsap.from(el.querySelector('.content'), {
+      ...revealDefaults, delay: 0.2,
+      scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+    });
+  });
+
+  // Honesty band (07)
+  gsap.from('.honesty-band blockquote', {
+    ...revealDefaults,
+    scrollTrigger: { trigger: '.honesty-band', start: 'top 80%', toggleActions: 'play none none none' }
+  });
+  gsap.from('.honesty-band p', {
+    ...revealDefaults, delay: 0.15,
+    scrollTrigger: { trigger: '.honesty-band', start: 'top 80%', toggleActions: 'play none none none' }
+  });
+
+  // Journey cards (04)
+  gsap.from('.jcard', {
+    ...revealDefaults,
+    stagger: 0.12,
+    scrollTrigger: { trigger: '.jcards', start: 'top 80%', toggleActions: 'play none none none' }
+  });
+
+  // Itinerary rows (05)
+  gsap.from('.jrow', {
+    ...revealDefaults,
+    stagger: 0.08,
+    scrollTrigger: { trigger: '.journeys', start: 'top 80%', toggleActions: 'play none none none' }
+  });
+
+  // Pricing facts
+  gsap.from('.home-facts .fact', {
+    ...revealDefaults,
+    stagger: 0.1,
+    scrollTrigger: { trigger: '.home-facts', start: 'top 80%', toggleActions: 'play none none none' }
+  });
+
+  // Capture band (08)
+  gsap.from('.capture-band .content', {
+    ...revealDefaults,
+    scrollTrigger: { trigger: '.capture-band', start: 'top 80%', toggleActions: 'play none none none' }
+  });
+
+  // --- Lead capture form ---
+  const form = document.getElementById('leadForm');
+  const note = document.getElementById('formNote');
+  const submitBtn = form.querySelector('button[type=submit]');
+  const btnLabel = submitBtn.innerHTML;
+  const setLoading = (on) => {
+    submitBtn.disabled = on;
+    submitBtn.setAttribute('aria-busy', on ? 'true' : 'false');
+    submitBtn.innerHTML = on ? '<span class="spin" aria-hidden="true"></span> Sending…' : btnLabel;
   };
-  if(!data.name||!data.email||!data.journey||!data.window){
-    note.className='form-note err';note.textContent='Please complete every field.';return;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    note.className = 'form-note';
+    note.textContent = '';
+    const data = {
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      journey: form.journey.value,
+      window: form.window.value
+    };
+    if (!data.name || !data.email || !data.journey || !data.window) {
+      note.className = 'form-note err';
+      note.textContent = 'Please complete every field.';
+      return;
+    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email)) {
+      note.className = 'form-note err';
+      note.textContent = 'Please enter a valid email.';
+      return;
+    }
+    setLoading(true);
+    note.className = 'form-note loading';
+    note.textContent = 'Sending your details…';
+    try {
+      const res = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      if (!res.ok) throw new Error('Server returned ' + res.status);
+      const r = await res.json();
+      note.className = 'form-note ok';
+      note.textContent = 'Thank you, ' + data.name.split(' ')[0] + '. You\'re on the list. We\'ll write when a table is composed for the journey you picked, not before.';
+      form.reset();
+    } catch (err) {
+      note.className = 'form-note err';
+      note.textContent = 'Something went wrong saving your interest. Please try again or email us.';
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  });
+
+  // Reduced-motion: disable GSAP animations
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    gsap.globalTimeline.clear();
+    ScrollTrigger.getAll().forEach(t => t.kill());
   }
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email)){
-    note.className='form-note err';note.textContent='Please enter a valid email.';return;
-  }
-  setLoading(true);
-  note.className='form-note loading';note.textContent='Sending your details…';
-  try{
-    const res=await fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
-    if(!res.ok) throw new Error('Server returned '+res.status);
-    const r=await res.json();
-    note.className='form-note ok';
-    note.textContent='Thank you, '+data.name.split(' ')[0]+'. You\'re on the list. We\'ll write when a table is composed for the journey you picked, not before.';
-    form.reset();
-  }catch(err){
-    note.className='form-note err';
-    note.textContent='Something went wrong saving your interest. Please try again or email us.';
-    console.error(err);
-  }finally{
-    setLoading(false);
-  }
-});
 </script>
 </body>
 </html>
