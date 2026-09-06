@@ -157,6 +157,7 @@ form.lead .btn-primary .spin{width:1.05em;height:1.05em;border-radius:50%;border
 .form-note.loading{color:var(--bone-dim)}
 @keyframes mesh-spin{to{transform:rotate(360deg)}}
 
+/* ---------- FAQ ---------- */
 .faq{margin-top:3rem;text-align:left;max-width:40rem;margin-inline:auto;border-top:1px solid var(--line)}
 .faq details{padding:1.1rem 0;border-bottom:1px solid var(--line)}
 .faq summary{cursor:pointer;font-weight:400;list-style:none;display:flex;justify-content:space-between;gap:1rem}
@@ -166,18 +167,24 @@ form.lead .btn-primary .spin{width:1.05em;height:1.05em;border-radius:50%;border
 .faq details[open] summary::after{transform:rotate(45deg)}
 .faq p{margin-top:.8rem;color:var(--bone-dim);font-size:.95rem}
 
+/* ---------- FOOTER ---------- */
 footer{padding:3rem var(--gut);border-top:1px solid var(--line);color:var(--bone-dim);font-size:.82rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
 footer a:hover{color:var(--bone)}
+
+/* ---------- ACCESSIBILITY & MOTION HARDENING ---------- */
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+  .btn,.jrow,.pcard,.faq summary::after,.spin,.jcard img{transition:none;animation:none!important}
+  .jcard:hover img{transform:none}
+  .pcard:hover{transform:none}
+  .jrow:hover{transition:none}
+  .img-split .half-img img{transition:none}
+}
 
 /* ---------- reveal (subtle scroll-reveal, spec: opacity 0->1, y 12px, 350ms, power1.out) ---------- */
 .reveal{opacity:0;transform:translateY(var(--reveal-dist));transition:opacity var(--reveal-dur) var(--ease),transform var(--reveal-dur) var(--ease)}
 .reveal.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){
-  .reveal{opacity:1;transform:none;transition:none}
-  html{scroll-behavior:auto}
-  .btn,.jrow,.pcard,.faq summary::after{transition:none}
-  .spin{animation:none!important}
-}
 
 /* ---------- ITINERARY DETAIL PAGES ---------- */
 .trip-hero{position:relative;min-height:78svh;display:flex;align-items:flex-end;overflow:hidden}
