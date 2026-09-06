@@ -472,6 +472,16 @@
     gsap.globalTimeline.clear();
     ScrollTrigger.getAll().forEach(t => t.kill());
   }
+
+  // Fallback: if GSAP/ScrollTrigger failed to load, force all content visible after 3s
+  setTimeout(() => {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      document.querySelectorAll('.reveal, .img-split, .img-band, .honesty-band, .jcards, .jcards > *, .journeys, .jrow, .home-facts .fact, .capture-band .content, .hero .eyebrow, .hero h1, .hero .lede, .hero .cta > *').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+    }
+  }, 3000);
 </script>
 </body>
 </html>

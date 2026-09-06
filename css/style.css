@@ -183,8 +183,7 @@ footer a:hover{color:var(--bone)}
 }
 
 /* ---------- reveal (subtle scroll-reveal, spec: opacity 0->1, y 12px, 350ms, power1.out) ---------- */
-.reveal{opacity:0;transform:translateY(var(--reveal-dist));transition:opacity var(--reveal-dur) var(--ease),transform var(--reveal-dur) var(--ease)}
-.reveal.in{opacity:1;transform:none}
+.reveal{opacity:1;transform:none}
 
 /* ---------- ITINERARY DETAIL PAGES ---------- */
 .trip-hero{position:relative;min-height:78svh;display:flex;align-items:flex-end;overflow:hidden}
